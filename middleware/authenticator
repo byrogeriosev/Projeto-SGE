@@ -7,7 +7,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// Route to generate the token
+// Rota para gerar token
 app.post('/login', (req, res) => {
     const usuario = { id: 1, usuario_nome: req.body.usuario_nome, usuario_email: req.body.usuario_email };
     
@@ -16,7 +16,7 @@ app.post('/login', (req, res) => {
     res.json({ token });
 });
 
-// Middleware to verify the token
+// Meio para verificar o token
 function verifyToken(req, res, next) {
     const token = req.headers['authorization'];
     if (!token) return res.sendStatus(403);
@@ -28,13 +28,13 @@ function verifyToken(req, res, next) {
     });
 }
 
-// Protected route
+// Rota protegida
 app.get('/protegida', verifyToken, (req, res) => {
     const { usuario_nome, usuario_email } = req.usuario;
     res.json({ message: 'Rota protegida', usuario_nome, usuario_email });
 });
 
-// Unprotected route
+// Routa não protegida
 app.get('/semseguranca', (req, res) => {
     res.json({ message: 'Rota sem segurança' });
 });
